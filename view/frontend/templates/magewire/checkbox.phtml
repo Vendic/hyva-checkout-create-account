@@ -1,0 +1,18 @@
+<?php declare(strict_types=1);
+
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Vendic\HyvaCheckoutCreateAccount\Magewire\Checkbox $magewire */
+
+$inputCssClasses = $block->getData('input_css_classes');
+?>
+<div>
+    <input
+        <?php if ($inputCssClasses) : ?>
+            class="<?= $escaper->escapeHtmlAttr($inputCssClasses) ?>"
+        <?php endif; ?>
+        wire:model="createAccount"
+        id="create-account"
+        type="checkbox"
+    />
+</div>

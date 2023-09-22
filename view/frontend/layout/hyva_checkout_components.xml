@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="checkout.section.quote-actions">
+            <container name="create-account.wrapper" htmlTag="div" htmlClass="mt-4">
+                <block name="create-account" template="Vendic_HyvaCheckoutCreateAccount::create-account.phtml">
+                    <block name="create-account.checkbox" as="checkbox">
+                        <arguments>
+                            <argument name="magewire" xsi:type="object">
+                                Vendic\HyvaCheckoutCreateAccount\Magewire\Checkbox
+                            </argument>
+                        </arguments>
+                    </block>
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

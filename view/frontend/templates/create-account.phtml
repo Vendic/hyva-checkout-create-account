@@ -1,0 +1,21 @@
+<?php declare(strict_types=1);
+
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Hyva\Theme\Model\ViewModelRegistry $viewModels */
+
+/** @var \Vendic\HyvaCheckoutCreateAccount\ViewModel\GuestChecker $guestCheckerViewModel */
+$guestCheckerViewModel = $viewModels->require(\Vendic\HyvaCheckoutCreateAccount\ViewModel\GuestChecker::class);
+
+if (!$guestCheckerViewModel->isCustomerGuest()) {
+    return;
+}
+?>
+<div class="flex gap-x-4">
+    <div class="flex items-center">
+        <?= $block->getChildHtml('checkbox') ?>
+    </div>
+    <div class="flex-1 gap-y-2">
+        <label for="newsletter-subscribe"><?= $escaper->escapeHtml(__('Create account')) ?></label>
+    </div>
+</div>
