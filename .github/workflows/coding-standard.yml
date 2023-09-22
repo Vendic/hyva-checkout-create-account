@@ -12,8 +12,7 @@ jobs:
 
       - uses: Tjitse-E/github-actions/coding-standard@feature/custom-phpcs-standards
         with:
-          path: src
-          version: 31
-#          coding_standard: VendicMagento2
-#          custom_coding_standard_repo: vendic/magento-coding-standard
+          path: ${{ github.workspace }}/src
+          coding_standard: VendicMagento2
+          custom_coding_standard_repo: vendic/magento-coding-standard
 
