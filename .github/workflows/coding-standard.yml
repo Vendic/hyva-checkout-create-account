@@ -1,0 +1,18 @@
+name: Coding Standard
+
+on: [ push, pull_request ]
+
+jobs:
+  coding-standard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ${{ github.workspace }}/src
+
+      - uses: Tjitse-E/github-actions/coding-standard@feature/custom-phpcs-standards
+        with:
+          path: ${{ github.workspace }}/src
+          coding_standard: VendicMagento2
+          custom_coding_standard_repo: vendic/magento-coding-standard
+

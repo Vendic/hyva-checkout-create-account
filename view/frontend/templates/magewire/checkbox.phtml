@@ -8,7 +8,7 @@ $inputCssClasses = $block->getData('input_css_classes');
 ?>
 <div>
     <input
-        <?php if ($inputCssClasses) : ?>
+        <?php if ($inputCssClasses): ?>
             class="<?= $escaper->escapeHtmlAttr($inputCssClasses) ?>"
         <?php endif; ?>
         wire:model="createAccount"
