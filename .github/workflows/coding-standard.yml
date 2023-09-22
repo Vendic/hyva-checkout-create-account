@@ -13,3 +13,4 @@ jobs:
       - uses: mage-os/github-actions/coding-standard@main
         with:
           path: ${{ github.workspace }}/src
+          version: 31
