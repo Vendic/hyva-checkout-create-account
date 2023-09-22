@@ -1,4 +1,4 @@
-# Vendic_HyvaCheckoutCreateAccount
+# Vendic_HyvaCheckoutCreateAccount [![Coding Standard](https://github.com/Vendic/hyva-checkout-create-account/actions/workflows/coding-standard.yml/badge.svg)](https://github.com/Vendic/hyva-checkout-create-account/actions/workflows/coding-standard.yml)
 This module adds a "create account" checkbox to the [Hyva Checkout](https://www.hyva.io/hyva-checkout.html). 
 
 When checked, it will automatically:
