@@ -1,0 +1,9 @@
+name: Coding Standard
+
+on: [push, pull_request]
+
+jobs:
+  coding-standard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mage-os/github-actions/coding-standard@main
