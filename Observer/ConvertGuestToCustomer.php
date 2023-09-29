@@ -17,6 +17,7 @@ use Magento\Quote\Model\Quote;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Psr\Log\LoggerInterface;
 use Vendic\HyvaCheckoutCreateAccount\Magewire\Checkbox;
+use Vendic\HyvaCheckoutCreateAccount\Model\Config;
 
 class ConvertGuestToCustomer implements ObserverInterface
 {
@@ -26,7 +27,8 @@ class ConvertGuestToCustomer implements ObserverInterface
         private AccountManagementInterface $accountManagement,
         private StoreManagerInterface $storeManager,
         private CheckoutSession $checkoutSession,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private Config $newAccountConfig
     ) {
     }
 
@@ -84,7 +86,7 @@ class ConvertGuestToCustomer implements ObserverInterface
         try {
             $this->accountManagement->initiatePasswordReset(
                 $email,
-                AccountManagement::EMAIL_RESET,
+                $this->newAccountConfig->getNewPasswordTemplate(),
                 $this->storeManager->getStore()->getWebsiteId()
             );
         } catch (Exception $e) {
