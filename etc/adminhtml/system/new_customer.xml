@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="new_customer"
+       showInDefault="1"
+       showInWebsite="1"
+       showInStore="1"
+       sortOrder="55"
+       translate="label">
+        <label>New Customer</label>
+
+        <field id="create_password_template"
+               type="select"
+               translate="label"
+               showInDefault="1"
+               showInWebsite="1"
+               showInStore="1"
+               canRestore="1">
+            <label>Create Password Template</label>
+            <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+        </field>
+
+    </group>
+</include>
