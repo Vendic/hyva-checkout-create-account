@@ -3,9 +3,8 @@
     <default>
         <hyva_themes_checkout>
             <new_customer>
-                <enable>
-                    1
-                </enable>
+                <enable>1</enable>
+                <send_reset_password_mail>1</send_reset_password_mail>
             </new_customer>
         </hyva_themes_checkout>
     </default>

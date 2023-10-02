@@ -21,6 +21,21 @@
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
         </field>
 
+        <field id="send_reset_password_mail"
+               type="select"
+               translate="label"
+               showInDefault="1"
+               showInWebsite="1"
+               showInStore="1"
+               canRestore="1">
+            <label>Send Reset Password Mail</label>
+            <comment>This will send a reset password mail after creating a new account.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enable"/>
+            </depends>
+        </field>
+
         <field id="create_password_template"
                type="select"
                translate="label"
@@ -31,7 +46,7 @@
             <label>Create Password Template</label>
             <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
             <depends>
-                <field id="enable">1</field>
+                <field id="send_password_mail">1</field>
             </depends>
         </field>
 
