@@ -32,7 +32,7 @@
             <comment>This will send a reset password mail after creating a new account.</comment>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
             <depends>
-                <field id="enable"/>
+                <field id="enable">1</field>
             </depends>
         </field>
 
@@ -46,7 +46,7 @@
             <label>Create Password Template</label>
             <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
             <depends>
-                <field id="send_password_mail">1</field>
+                <field id="enable">1</field>
             </depends>
         </field>
 
