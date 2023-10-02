@@ -9,6 +9,18 @@
        translate="label">
         <label>New Customer</label>
 
+        <field id="enable"
+               type="select"
+               translate="label"
+               showInDefault="1"
+               showInWebsite="1"
+               showInStore="1"
+               canRestore="1">
+            <label>Enable New Customer</label>
+            <comment>Will add a checkbox to checkout for creating a new account.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+
         <field id="create_password_template"
                type="select"
                translate="label"
@@ -18,6 +30,9 @@
                canRestore="1">
             <label>Create Password Template</label>
             <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+            <depends>
+                <field id="enable">1</field>
+            </depends>
         </field>
 
     </group>
