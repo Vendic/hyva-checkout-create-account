@@ -5,6 +5,7 @@
             <new_customer>
                 <enable>1</enable>
                 <send_reset_password_mail>1</send_reset_password_mail>
+                <create_password_template>hyva_themes_checkout_new_customer_create_password_template</create_password_template>
             </new_customer>
         </hyva_themes_checkout>
     </default>
