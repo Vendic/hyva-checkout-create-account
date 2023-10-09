@@ -4,7 +4,9 @@
     <body>
         <referenceContainer name="checkout.section.quote-actions">
             <container name="create-account.wrapper" htmlTag="div" htmlClass="mt-4">
-                <block name="create-account" template="Vendic_HyvaCheckoutCreateAccount::create-account.phtml">
+                <block name="create-account"
+                       template="Vendic_HyvaCheckoutCreateAccount::create-account.phtml"
+                       ifconfig="hyva_themes_checkout/new_customer/enable">
                     <block name="create-account.checkbox" as="checkbox">
                         <arguments>
                             <argument name="magewire" xsi:type="object">

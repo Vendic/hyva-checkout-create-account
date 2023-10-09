@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="new_customer"
+       showInDefault="1"
+       showInWebsite="1"
+       showInStore="1"
+       sortOrder="55"
+       translate="label">
+        <label>New Customer</label>
+
+        <field id="enable"
+               type="select"
+               translate="label"
+               showInDefault="1"
+               showInWebsite="1"
+               showInStore="1"
+               canRestore="1">
+            <label>Enable New Customer</label>
+            <comment>Will add a checkbox to checkout for creating a new account.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+        </field>
+
+        <field id="send_reset_password_mail"
+               type="select"
+               translate="label"
+               showInDefault="1"
+               showInWebsite="1"
+               showInStore="1"
+               canRestore="1">
+            <label>Send Reset Password Mail</label>
+            <comment>This will send a reset password mail after creating a new account.</comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="enable">1</field>
+            </depends>
+        </field>
+
+        <field id="create_password_template"
+               type="select"
+               translate="label"
+               showInDefault="1"
+               showInWebsite="1"
+               showInStore="1"
+               canRestore="1">
+            <label>Create Password Template</label>
+            <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+            <depends>
+                <field id="enable">1</field>
+            </depends>
+        </field>
+
+    </group>
+</include>
