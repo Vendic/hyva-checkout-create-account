@@ -88,7 +88,7 @@ class ConvertGuestToCustomer implements ObserverInterface
         try {
             $this->accountManagement->initiatePasswordReset(
                 $email,
-                $this->newAccountConfig->getNewPasswordTemplate(),
+                AccountManagement::EMAIL_RESET,
                 $this->storeManager->getStore()->getWebsiteId()
             );
         } catch (Exception $e) {
