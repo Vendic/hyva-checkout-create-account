@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Hyva\Checkout\Model\Form\EntityForm\EavAttributeShippingAddressForm">
+        <arguments>
+            <argument name="entityFormModifiers" xsi:type="array">
+                <item name="hide_create_account_modifier" xsi:type="object">
+                    Vendic\HyvaCheckoutCreateAccount\Model\Form\Field\HideCreateAccountModifier
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
+
