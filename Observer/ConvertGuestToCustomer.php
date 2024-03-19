@@ -58,6 +58,10 @@ class ConvertGuestToCustomer implements ObserverInterface
             // Ideally we should make this configurable.
             ->setCustomerGroupId(\Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID);
 
+        /** @var \Magento\Sales\Model\Order $order */
+        $order = $observer->getEvent()->getOrder();
+        $order->setCustomerId($customer->getId());
+
         if ($this->newAccountConfig->sendPasswordMailEnabled()) {
             $this->sendPasswordResetEmail($customer->getEmail());
         }
