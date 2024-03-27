@@ -56,7 +56,7 @@ class ConvertGuestToCustomer implements ObserverInterface
         $quote->setCustomerId($customer->getId())
             ->setCustomerIsGuest(0)
             // Ideally we should make this configurable.
-            ->setCustomerGroupId(\Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID);
+            ->setCustomerGroupId($this->newAccountConfig->getDefaultCustomerGroup((int)$quote->getStoreId()));
 
         /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getEvent()->getOrder();

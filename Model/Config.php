@@ -13,6 +13,7 @@ class Config
     private const IS_ENABLED = 'hyva_themes_checkout/new_customer/enable';
     private const SEND_RESET_PASSWORD_MAIL = 'hyva_themes_checkout/new_customer/send_reset_password_mail';
     private const NEW_PASSWORD_TEMPLATE = 'hyva_themes_checkout/new_customer/create_password_template';
+    private const DEFAULT_CUSTOMER_GROUP_XML_PATH = 'customer/create_account/default_group';
 
     public function __construct(private ScopeConfigInterface $scopeConfig)
     {
@@ -39,6 +40,15 @@ class Config
         return $this->scopeConfig->getValue(
             self::NEW_PASSWORD_TEMPLATE,
             ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    public function getDefaultCustomerGroup(?int $storeId = null): int
+    {
+        return (int)$this->scopeConfig->getValue(
+            self::DEFAULT_CUSTOMER_GROUP_XML_PATH,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 }
