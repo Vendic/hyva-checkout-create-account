@@ -18,6 +18,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Psr\Log\LoggerInterface;
 use Vendic\HyvaCheckoutCreateAccount\Magewire\Checkbox;
 use Vendic\HyvaCheckoutCreateAccount\Model\Config;
+use Vendic\HyvaCheckoutCreateAccount\Model\EmailSender;
 
 class ConvertGuestToCustomer implements ObserverInterface
 {
@@ -28,7 +29,8 @@ class ConvertGuestToCustomer implements ObserverInterface
         private StoreManagerInterface $storeManager,
         private CheckoutSession $checkoutSession,
         private LoggerInterface $logger,
-        private Config $newAccountConfig
+        private Config $newAccountConfig,
+        private EmailSender $emailSender,
     ) {
     }
 
@@ -63,7 +65,7 @@ class ConvertGuestToCustomer implements ObserverInterface
         $order->setCustomerId($customer->getId());
 
         if ($this->newAccountConfig->sendPasswordMailEnabled()) {
-            $this->sendPasswordResetEmail($customer->getEmail());
+            $this->emailSender->sendPasswordResetEmail($customer);
         }
     }
 
@@ -84,21 +86,6 @@ class ConvertGuestToCustomer implements ObserverInterface
                 sprintf('Could not create customer %s from quote: %s', $email, $e->getMessage())
             );
             return null;
-        }
-    }
-
-    private function sendPasswordResetEmail(string $email): void
-    {
-        try {
-            $this->accountManagement->initiatePasswordReset(
-                $email,
-                AccountManagement::EMAIL_RESET,
-                $this->storeManager->getStore()->getWebsiteId()
-            );
-        } catch (Exception $e) {
-            $this->logger->error(
-                sprintf('Could not send password reset email to %s: %s', $email, $e->getMessage())
-            );
         }
     }
 

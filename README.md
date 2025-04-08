@@ -14,7 +14,13 @@ composer require vendic/hyva-checkout-create-account
 ```
 
 ## Configuration
-None at this moment. Feel free to create a pull request if you need specific settings. Check the [issues](https://github.com/Vendic/hyva-checkout-create-account/issues) for tickets that need help.
+This module introduces a configuration section under **Stores > Configuration > Hyvä Themes > Checkout > New Customer** with the following options:
+
+- **Enable New Customer**: Enables the "create account" checkbox on the checkout page.
+- **Send Reset Password Mail**: If enabled, a reset password email will be sent after the customer account is created.
+- **Create Password Template**: Allows you to select the email template used when sending the reset password mail.
+
+Feel free to create a pull request if you need additional configuration options. Check the [issues](https://github.com/Vendic/hyva-checkout-create-account/issues) for tickets that need help.
 
 ## Compatibility
 - [Hyvä Themes](https://www.hyva.io/hyva-themes-license.html) ^1.0
