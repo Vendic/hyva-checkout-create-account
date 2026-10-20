@@ -21,13 +21,16 @@ class HideCreateAccountGuestDetailsModifier implements EntityFormModifierInterfa
 
     public function apply(EntityFormInterface $form): EntityFormInterface
     {
-        // Send the email as soon as it changes, instead of only when the order is placed.
+        // Send the email as soon as it changes, instead of only when the order is placed. Like Hyvä's guest
+        // login, add the email rule: without data-validate, auto-save also sends a partly typed address.
         $form->registerModificationListener(
             'create_account_save_guest_email_on_change',
             'form:init',
             fn (AbstractEntityForm $form) => $form->modifyField(
                 GuestDetailsForm::FIELD_EMAIL,
-                fn (AbstractEntityField $field) => $field->replaceAttribute('wire:auto-save', 'wire:auto-save.self')
+                fn (AbstractEntityField $field) => $field
+                    ->replaceAttribute('wire:auto-save', 'wire:auto-save.self')
+                    ->setValidationRule('email')
             )
         );
 

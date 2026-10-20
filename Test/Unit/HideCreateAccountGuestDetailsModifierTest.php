@@ -29,10 +29,13 @@ class HideCreateAccountGuestDetailsModifierTest extends TestCase
         (new HideCreateAccountGuestDetailsModifier())->apply($this->form);
     }
 
-    public function testGuestEmailIsSavedAsSoonAsItChanges(): void
+    public function testGuestEmailIsSavedAsSoonAsAValidEmailIsEntered(): void
     {
         $field = $this->createMock(AbstractEntityField::class);
-        $field->expects(self::once())->method('replaceAttribute')->with('wire:auto-save', 'wire:auto-save.self');
+        $field->expects(self::once())->method('replaceAttribute')
+            ->with('wire:auto-save', 'wire:auto-save.self')->willReturnSelf();
+        // Without a validation rule Hyvä also saves a partly typed email address.
+        $field->expects(self::once())->method('setValidationRule')->with('email')->willReturnSelf();
         $this->form->expects(self::once())->method('modifyField')->willReturnCallback(
             function (string $fieldId, callable $modifier) use ($field): AbstractEntityForm {
                 self::assertSame('email_address', $fieldId);
