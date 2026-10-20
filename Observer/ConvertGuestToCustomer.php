@@ -9,6 +9,8 @@ use Exception;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterfaceFactory;
@@ -74,13 +76,21 @@ class ConvertGuestToCustomer implements ObserverInterface
         $customer = $this->customerFactory->create();
         $email = $quote->getCustomerEmail();
 
-        $customer->setWebsiteId($this->storeManager->getStore()->getWebsiteId())
+        $customer->setWebsiteId((int)$quote->getStore()->getWebsiteId())
             ->setEmail($email)
             ->setFirstname($quote->getBillingAddress()->getFirstname())
             ->setLastname($quote->getBillingAddress()->getLastname());
 
         try {
-            return $this->customerRepository->save($customer);
+            try {
+                $this->customerRepository->get($email, (int)$customer->getWebsiteId());
+                return null;
+            } catch (NoSuchEntityException) {
+                return $this->customerRepository->save($customer);
+            }
+        } catch (AlreadyExistsException) {
+            // Another request may have registered the email since the lookup. Keep this order a guest order.
+            return null;
         } catch (Exception $e) {
             $this->logger->error(
                 sprintf('Could not create customer %s from quote: %s', $email, $e->getMessage())

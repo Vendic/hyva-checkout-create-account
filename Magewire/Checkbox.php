@@ -17,6 +17,11 @@ class Checkbox extends Component
      */
     public $createAccount;
 
+    /**
+     * @var array
+     */
+    public $listeners = ['create_account_disabled' => 'resetCreateAccount'];
+
     public function __construct(private CheckoutSession $checkoutSession)
     {
     }
@@ -24,6 +29,12 @@ class Checkbox extends Component
     public function mount(): void
     {
         $this->createAccount = $this->checkoutSession->getData(self::CREATE_ACCOUNT_ENABLED) ?: false;
+    }
+
+    public function resetCreateAccount(): void
+    {
+        $this->createAccount = false;
+        $this->checkoutSession->setData(self::CREATE_ACCOUNT_ENABLED, false);
     }
 
     public function updatedCreateAccount(mixed $value) : mixed
