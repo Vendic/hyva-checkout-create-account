@@ -19,7 +19,6 @@ use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Address;
 use Magento\Sales\Model\Order;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\StoreManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Vendic\HyvaCheckoutCreateAccount\Magewire\Checkbox;
@@ -174,11 +173,7 @@ class CheckoutAccountCreationTest extends TestCase
         $store = $this->createMock(Store::class);
         $store->method('getWebsiteId')->willReturn(2);
         $store->method('getId')->willReturn(5);
-        $storeManager = $this->createMock(StoreManagerInterface::class);
-        $currentStore = $this->createMock(Store::class);
-        $currentStore->method('getWebsiteId')->willReturn(1);
-        $storeManager->method('getStore')->willReturn($currentStore);
-        $quote = $this->getMockBuilder(Quote::class)->disableOriginalConstructor()
+        $quote =$this->getMockBuilder(Quote::class)->disableOriginalConstructor()
             ->onlyMethods(['getStore', 'getBillingAddress'])->getMock();
         $quote->method('getStore')->willReturn($store);
         $quote->setStoreId(5)->setCustomerEmail('existing@example.com')->setCustomerIsGuest(1);
@@ -199,7 +194,6 @@ class CheckoutAccountCreationTest extends TestCase
             $factory,
             $repository,
             $this->createMock(AccountManagementInterface::class),
-            $storeManager,
             $session,
             $logger,
             $config,
