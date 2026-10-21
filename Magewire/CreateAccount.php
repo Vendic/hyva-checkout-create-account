@@ -41,6 +41,8 @@ class CreateAccount extends Component
             $this->customerRepository->get($email);
             $this->accountExists = true;
             $this->checkoutSession->setData(self::ACCOUNT_EXISTS, true);
+            $this->checkoutSession->setData(Checkbox::CREATE_ACCOUNT_ENABLED, false);
+            $this->emitTo('create-account.checkbox', 'create_account_disabled');
         } catch (NoSuchEntityException) {
             $this->accountExists = false;
             $this->checkoutSession->setData(self::ACCOUNT_EXISTS, false);

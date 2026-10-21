@@ -9,10 +9,11 @@ use Exception;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\AlreadyExistsException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterfaceFactory;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\Quote\Model\Quote;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Psr\Log\LoggerInterface;
@@ -26,7 +27,6 @@ class ConvertGuestToCustomer implements ObserverInterface
         private CustomerInterfaceFactory $customerFactory,
         private CustomerRepositoryInterface $customerRepository,
         private AccountManagementInterface $accountManagement,
-        private StoreManagerInterface $storeManager,
         private CheckoutSession $checkoutSession,
         private LoggerInterface $logger,
         private Config $newAccountConfig,
@@ -74,18 +74,34 @@ class ConvertGuestToCustomer implements ObserverInterface
         $customer = $this->customerFactory->create();
         $email = $quote->getCustomerEmail();
 
-        $customer->setWebsiteId($this->storeManager->getStore()->getWebsiteId())
+        $customer->setWebsiteId((int)$quote->getStore()->getWebsiteId())
             ->setEmail($email)
             ->setFirstname($quote->getBillingAddress()->getFirstname())
             ->setLastname($quote->getBillingAddress()->getLastname());
 
         try {
+            if ($this->customerExists($email, (int)$customer->getWebsiteId())) {
+                return null;
+            }
             return $this->customerRepository->save($customer);
+        } catch (AlreadyExistsException) {
+            // Another request may have registered the email since the lookup. Keep this order a guest order.
+            return null;
         } catch (Exception $e) {
             $this->logger->error(
                 sprintf('Could not create customer %s from quote: %s', $email, $e->getMessage())
             );
             return null;
+        }
+    }
+
+    private function customerExists(string $email, int $websiteId): bool
+    {
+        try {
+            $this->customerRepository->get($email, $websiteId);
+            return true;
+        } catch (NoSuchEntityException) {
+            return false;
         }
     }
 

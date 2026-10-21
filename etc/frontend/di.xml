@@ -10,5 +10,14 @@
             </argument>
         </arguments>
     </type>
+    <type name="Hyva\Checkout\Model\Form\EntityForm\GuestDetailsForm">
+        <arguments>
+            <argument name="entityFormModifiers" xsi:type="array">
+                <item name="hide_create_account_guest_details_modifier" xsi:type="object">
+                    Vendic\HyvaCheckoutCreateAccount\Model\Form\Field\HideCreateAccountGuestDetailsModifier
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>
 
