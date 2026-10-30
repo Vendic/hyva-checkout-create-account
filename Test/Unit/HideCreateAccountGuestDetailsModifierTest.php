@@ -29,22 +29,28 @@ class HideCreateAccountGuestDetailsModifierTest extends TestCase
         (new HideCreateAccountGuestDetailsModifier())->apply($this->form);
     }
 
-    public function testGuestEmailIsSavedAsSoonAsAValidEmailIsEntered(): void
+    public function testGuestEmailIsSavedAsSoonAsAValidEmailIsEnteredOnCheckout1(): void
     {
         $field = $this->createMock(AbstractEntityField::class);
+        $field->method('hasAttribute')->with('wire:auto-save')->willReturn(true);
         $field->expects(self::once())->method('replaceAttribute')
             ->with('wire:auto-save', 'wire:auto-save.self')->willReturnSelf();
         // Without a validation rule Hyvä also saves a partly typed email address.
         $field->expects(self::once())->method('setValidationRule')->with('email')->willReturnSelf();
-        $this->form->expects(self::once())->method('modifyField')->willReturnCallback(
-            function (string $fieldId, callable $modifier) use ($field): AbstractEntityForm {
-                self::assertSame('email_address', $fieldId);
-                $modifier($field);
-                return $this->form;
-            }
-        );
 
-        $this->listeners['form:init']($this->form);
+        $this->initForm($field);
+    }
+
+    public function testGuestEmailIsSavedWhenItChangesOnCheckout3(): void
+    {
+        // Hyvä Checkout 3 has no auto-save, it binds the email deferred.
+        $field = $this->createMock(AbstractEntityField::class);
+        $field->method('hasAttribute')->with('wire:auto-save')->willReturn(false);
+        $field->expects(self::once())->method('replaceAttribute')
+            ->with('wire:model', 'wire:model.lazy')->willReturnSelf();
+        $field->expects(self::once())->method('setValidationRule')->with('email')->willReturnSelf();
+
+        $this->initForm($field);
     }
 
     public function testGuestEmailUpdateLetsCreateAccountCheckTheEmail(): void
@@ -73,5 +79,18 @@ class HideCreateAccountGuestDetailsModifierTest extends TestCase
             property: 'data.confirm_email',
             value: 'existing@example.com'
         );
+    }
+
+    private function initForm(AbstractEntityField $field): void
+    {
+        $this->form->expects(self::once())->method('modifyField')->willReturnCallback(
+            function (string $fieldId, callable $modifier) use ($field): AbstractEntityForm {
+                self::assertSame('email_address', $fieldId);
+                $modifier($field);
+                return $this->form;
+            }
+        );
+
+        $this->listeners['form:init']($this->form);
     }
 }

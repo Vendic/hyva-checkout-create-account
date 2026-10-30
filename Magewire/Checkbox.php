@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
  */
+
+declare(strict_types=1);
 
 namespace Vendic\HyvaCheckoutCreateAccount\Magewire;
 
@@ -10,19 +13,19 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 
 class Checkbox extends Component
 {
-    public const CREATE_ACCOUNT_ENABLED = 'create_account_enabled';
+    public const string CREATE_ACCOUNT_ENABLED = 'create_account_enabled';
 
     /**
      * @var bool
      */
-    public $createAccount;
+    public bool $createAccount;
 
     /**
      * @var array
      */
-    public $listeners = ['create_account_disabled' => 'resetCreateAccount'];
+    protected $listeners = ['create_account_disabled' => 'resetCreateAccount'];
 
-    public function __construct(private CheckoutSession $checkoutSession)
+    public function __construct(private readonly CheckoutSession $checkoutSession)
     {
     }
 
@@ -37,7 +40,7 @@ class Checkbox extends Component
         $this->checkoutSession->setData(self::CREATE_ACCOUNT_ENABLED, false);
     }
 
-    public function updatedCreateAccount(mixed $value) : mixed
+    public function updatedCreateAccount(mixed $value): mixed
     {
         $this->checkoutSession->setData(self::CREATE_ACCOUNT_ENABLED, (bool) $value);
 

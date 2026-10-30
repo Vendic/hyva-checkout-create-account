@@ -1,7 +1,10 @@
-<?php declare(strict_types=1);
+<?php
+
 /**
  * @copyright   Copyright (c) Vendic B.V https://vendic.nl/
  */
+
+declare(strict_types=1);
 
 namespace Vendic\HyvaCheckoutCreateAccount\Magewire;
 
@@ -12,21 +15,21 @@ use Magewirephp\Magewire\Component;
 
 class CreateAccount extends Component
 {
-    private const ACCOUNT_EXISTS = 'account_exists';
+    private const string ACCOUNT_EXISTS = 'account_exists';
 
     /**
      * @var bool
      */
-    public $accountExists = false;
+    public bool $accountExists = false;
 
     /**
      * @var array
      */
-    public $listeners = ['email_address_updated' => 'hideIfAccountExists'];
+    protected $listeners = ['email_address_updated' => 'hideIfAccountExists'];
 
     public function __construct(
-        private CustomerRepositoryInterface $customerRepository,
-        private Session $checkoutSession
+        private readonly CustomerRepositoryInterface $customerRepository,
+        private readonly Session $checkoutSession
     ) {
     }
 
