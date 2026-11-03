@@ -57,7 +57,9 @@ class CheckoutAccountCreationTest extends TestCase
         $checkbox = new Checkbox($session);
         $checkbox->updatedCreateAccount(true);
         $checkbox->createAccount = true;
-        self::assertSame('resetCreateAccount', $checkbox->getListeners()['create_account_disabled'] ?? null);
+        // getListeners() is public in Magewire 1 and protected in Magewire 3.
+        $listeners = (fn () => $this->listeners)->call($checkbox);
+        self::assertSame('resetCreateAccount', $listeners['create_account_disabled'] ?? null);
         $checkbox->resetCreateAccount();
         self::assertFalse($checkbox->createAccount);
         self::assertFalse($session->getData(Checkbox::CREATE_ACCOUNT_ENABLED));
