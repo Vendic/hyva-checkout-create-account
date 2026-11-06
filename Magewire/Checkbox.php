@@ -18,7 +18,7 @@ class Checkbox extends Component
     /**
      * @var bool
      */
-    public bool $createAccount;
+    public bool $createAccount = false;
 
     /**
      * @var array
