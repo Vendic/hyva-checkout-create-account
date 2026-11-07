@@ -51,6 +51,12 @@ class CheckoutAccountCreationTest extends TestCase
         self::assertFalse($session->getData(Checkbox::CREATE_ACCOUNT_ENABLED));
     }
 
+    public function testCheckboxCanBeReadBeforeMount(): void
+    {
+        $checkbox = new Checkbox(new SessionStub());
+        self::assertFalse($checkbox->createAccount);
+    }
+
     public function testCheckboxResetsWhenOptionIsHidden(): void
     {
         $session = new SessionStub();

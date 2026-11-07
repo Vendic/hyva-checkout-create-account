@@ -16,7 +16,7 @@ use Magewirephp\Magewire\Component;
 
 class HideCreateAccountModifier extends AbstractEntityFormModifier
 {
-    private const string EMAIL_PROPERTY = 'address.email';
+    private const EMAIL_PROPERTY = 'address.email';
 
     public function apply(AbstractEntityForm $form): AbstractEntityForm
     {

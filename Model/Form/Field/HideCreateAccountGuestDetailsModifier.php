@@ -19,7 +19,7 @@ use Magewirephp\Magewire\Component;
  */
 class HideCreateAccountGuestDetailsModifier extends AbstractEntityFormModifier
 {
-    private const string EMAIL_PROPERTY = 'data.' . GuestDetailsForm::FIELD_EMAIL;
+    private const EMAIL_PROPERTY = 'data.' . GuestDetailsForm::FIELD_EMAIL;
 
     public function apply(AbstractEntityForm $form): AbstractEntityForm
     {
