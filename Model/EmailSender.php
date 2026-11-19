@@ -49,16 +49,17 @@ class EmailSender
             $newPasswordToken = $this->mathRandom->getUniqueHash();
             $this->accountManagement->changeResetPasswordLinkToken($customer, $newPasswordToken);
 
-            $resetUrl = $this->getResetPasswordUrl($newPasswordToken, $this->getStoreId(), (int)$customer->getId());
+            $storeId = $this->getStoreId();
+            $resetUrl = $this->getResetPasswordUrl($newPasswordToken, $storeId, (int)$customer->getId());
 
             $this->transportBuilder
                 ->setTemplateIdentifier($templateId)
-                ->setTemplateOptions(['area' => Area::AREA_FRONTEND, 'store' => $this->getStoreId()])
+                ->setTemplateOptions(['area' => Area::AREA_FRONTEND, 'store' => $storeId])
                 ->setTemplateVars([
                     'customer_name' => $customer->getFirstname() . ' ' . $customer->getLastname(),
                     'reset_password_url' => $resetUrl
                 ])
-                ->setFromByScope($this->getEmailSenderFrom())
+                ->setFromByScope($this->getEmailSenderFrom($storeId))
                 ->addTo($email)
                 ->getTransport()
                 ->sendMessage();
@@ -95,13 +96,15 @@ class EmailSender
         }
     }
 
-    private function getEmailSenderFrom(): array
+    private function getEmailSenderFrom(int $storeId): array
     {
         return $this->senderResolver->resolve(
             $this->scopeConfig->getValue(
                 AccountManagement::XML_PATH_FORGOT_EMAIL_IDENTITY,
-                ScopeInterface::SCOPE_STORES
-            )
+                ScopeInterface::SCOPE_STORES,
+                $storeId
+            ),
+            $storeId
         );
     }
 }
