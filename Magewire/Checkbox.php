@@ -13,12 +13,12 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 
 class Checkbox extends Component
 {
-    public const string CREATE_ACCOUNT_ENABLED = 'create_account_enabled';
+    public const CREATE_ACCOUNT_ENABLED = 'create_account_enabled';
 
     /**
      * @var bool
      */
-    public bool $createAccount;
+    public bool $createAccount = false;
 
     /**
      * @var array

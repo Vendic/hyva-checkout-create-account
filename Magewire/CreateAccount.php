@@ -15,7 +15,7 @@ use Magewirephp\Magewire\Component;
 
 class CreateAccount extends Component
 {
-    private const string ACCOUNT_EXISTS = 'account_exists';
+    private const ACCOUNT_EXISTS = 'account_exists';
 
     /**
      * @var bool
